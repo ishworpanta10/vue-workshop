@@ -5,23 +5,24 @@
         <div>
           <h4 class="title">Netflix Ratings</h4>
           <div class="actions">
-            <button class="btn">Lowest rated</button>
-            <button class="btn">Highest rated</button>
+            <button @click="SortLow" class="btn">Lowest rated</button>
+            <button @click="sortHigh" class="btn">Highest rated</button>
           </div>
         </div>
         <div class="search">
-          <input type="text" class="form-control" placeholder="Search by title" />
+          <input v-model="title" type="text" class="form-control" placeholder="Search by title" />
         </div>
       </div>
       <div class="content">
         <table class="table">
           <thead>
-            <th></th>
+            <th v-for="(item ,index) in columns" :key="index" >{{item}}</th>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-              <td></td>
+            <!-- <tr v-for="(item,index) in filteredRatingInfo" :key="index"  > -->
+              <tr v-for="(item,index) in filteredMovies" :key="index"  >
+              <td>{{item.title }}</td>
+              <td>{{item.rating}}</td>
             </tr>
           </tbody>
         </table>
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+import { METHODS } from 'http';
 export default {
   name: "NetflixRatings",
   data: function() {
@@ -57,8 +59,38 @@ export default {
         { title: `Hunter X Hunter`, rating: 57 },
         { title: `Marvel's Luke Cage`, rating: 95 },
         { title: `Marvel's Iron Fist`, rating: 98 }
-      ]
+      ],
+      searchtext :"",
+      title:""
     };
+  },
+  // computed:{
+  //   filteredRatingInfo: function() {
+  //     if(this.searchtext === '') {
+  //       return this.ratingsInfo
+  //     }
+      
+  //     return this.ratingsInfo.filter(item => item.title.toLowerCase().match(this.searchtext.toLowerCase()))
+  //   }
+  // },
+  computed:{
+     filteredMovies(){
+      return this.ratingsInfo.filter(info=>{
+        return info.title.toLowerCase().match(this.title.toLowerCase());
+      });
+    }
+
+  },
+  methods:{
+    sortHigh(){
+      this.ratingsInfo.sort((a, b) => (a.rating > b.rating ? -1 : 1));
+    },
+    SortLow(){
+      this.ratingsInfo.sort((a, b) => (a.rating > b.rating ? 1 : -1));
+    },
+    searchMovie(){
+      this.ratingsInfo.title
+    }
   }
 };
 </script>
