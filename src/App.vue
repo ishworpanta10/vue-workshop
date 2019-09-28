@@ -1,10 +1,21 @@
 <template>
-  <div id="app">Getting started with Vuejs</div>
+  <div id="app">
+    Getting started with Vuejs
+    <hello-world></hello-world>
+
+  </div>
+
 </template>
 
 <script>
+import HelloWorld from "./components/HellowWorld"
 export default {
-  name: "app"
+  name: "app",
+
+  components:{
+    HelloWorld
+  },
+  
 };
 </script>
 
